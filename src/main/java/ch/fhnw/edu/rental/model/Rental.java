@@ -2,20 +2,32 @@ package ch.fhnw.edu.rental.model;
 
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "RENTALS")
 public class Rental {
     @Id
+    @Column(name = "RENTAL_ID")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "MOVIE_ID")
     private Movie movie;
+
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
     private User user;
+
+    @Column(name = "RENTAL_RENTALDATE")
     private LocalDate rentalDate;
+
+    @Column(name = "RENTAL_RENTALDAYS")
     private int rentalDays;
+
+    private Rental() {/* Hibernate... */}
 
     public Rental(User user, Movie movie, int rentalDays) {
         this(user, movie, rentalDays, LocalDate.now());

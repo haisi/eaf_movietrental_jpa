@@ -2,20 +2,31 @@ package ch.fhnw.edu.rental.model;
 
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "MOVIES")
 public class Movie {
     @Id
+    @Column(name = "MOVIE_ID")
+    @GeneratedValue(strategy=GenerationType. IDENTITY)
     private Long id;
 
+    @Column(name = "MOVIE_TITLE")
     private String title;
+
+    @Column(name = "MOVIE_RELEASEDATE")
     private LocalDate releaseDate;
+
+    @Column(name = "MOVIE_RENTED")
     private boolean rented;
+
+    @ManyToOne
+    @JoinColumn(name = "PRICECATEGORY_FK")
     private PriceCategory priceCategory;
+
+    private Movie() {/* Hibernate... */}
 
     public Movie(String title, LocalDate releaseDate, PriceCategory priceCategory) throws NullPointerException {
         if ((title == null) || (releaseDate == null) || (priceCategory == null)) {

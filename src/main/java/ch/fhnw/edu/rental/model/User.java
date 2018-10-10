@@ -2,9 +2,7 @@ package ch.fhnw.edu.rental.model;
 
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +10,23 @@ import java.util.List;
 @Table(name = "USERS")
 public class User {
     @Id
+    @Column(name = "USER_ID")
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "USER_FIRSTNAME")
     private String firstName;
+
     @Column(name = "USER_NAME")
     private String lastName;
+
+    @Column(name = "USER_EMAIL")
     private String email;
+
+    @OneToMany(mappedBy = "user")
     private List<Rental> rentals;
+
+    private User() { /* Hibernate... */ }
 
     public User(String lastName, String firstName) {
         this.lastName = lastName;
