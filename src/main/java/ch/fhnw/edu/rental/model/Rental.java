@@ -1,7 +1,5 @@
 package ch.fhnw.edu.rental.model;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
