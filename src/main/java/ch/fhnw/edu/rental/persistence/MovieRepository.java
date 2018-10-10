@@ -17,7 +17,7 @@ public class MovieRepository extends AbstractJpaRepository<Movie, Long> {
 
     public List<Movie> findByTitle(String title) {
         return super.findWithQuery(
-            "SELECT m from Movie m where m.title = :title", with("email", title).params());
+            "SELECT m from Movie m where m.title = :title", with("title", title).params());
     }
 
 }
