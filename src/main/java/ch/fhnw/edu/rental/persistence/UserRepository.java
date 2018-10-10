@@ -2,12 +2,36 @@ package ch.fhnw.edu.rental.persistence;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import ch.fhnw.edu.rental.model.User;
 
-public interface UserRepository extends Repository<User, Long> {
-    List<User> findByLastName(String lastName);
+import static ch.fhnw.edu.rental.persistence.QueryParameter.*;
 
-    List<User> findByFirstName(String firstName);
+@Repository
+public class UserRepository extends AbstractJpaRepository<User, Long> {
 
-    List<User> findByEmail(String email);
+    public UserRepository() {
+        setClazz(User.class);
+    }
+
+    public User save(User t) {
+        return super.save(t);
+    }
+
+    public List<User> findByLastName(String lastName) {
+        return super.findWithQuery(
+            "SELECT u FROM User u where u.lastName = :lastName", with("lastName", lastName).params());
+    }
+
+    public List<User> findByFirstName(String firstName) {
+        return super.findWithQuery(
+            "SELECT u FROM User u where u.firstName = :firstName", with("firstName", firstName).params());
+    }
+
+    public List<User> findByEmail(String email) {
+        return super.findWithQuery(
+            "SELECT u FROM User u where u.email = :email", with("email", email).params());
+
+    }
 }

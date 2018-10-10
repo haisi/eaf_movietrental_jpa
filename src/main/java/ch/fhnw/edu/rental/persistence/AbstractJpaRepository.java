@@ -2,10 +2,10 @@ package ch.fhnw.edu.rental.persistence;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -22,29 +22,69 @@ public abstract class AbstractJpaRepository<T, ID> {
         this.clazz = clazzToSet;
     }
 
-    public T findOne(ID id) {
-        return entityManager.find(clazz, id);
+    /**
+     * Retrieves an entity by its id.
+     *
+     * @param id must not be null.
+     * @return the entity with the given id or null of none was found.
+     * @throws IllegalArgumentException if id is null.
+     */
+    public Optional<T> findById(ID id) {
+        return Optional.ofNullable(entityManager.find(clazz, id));
     }
 
+    /**
+     * Returns all instances of the type.
+     *
+     * @return all entities
+     */
     public List<T> findAll() {
         return entityManager.createQuery("from " + clazz.getName(), clazz).getResultList();
     }
 
-    public void create(T entity) {
-        entityManager.persist(entity);
-    }
-
-    public T update(T entity) {
+    /**
+     * Saves a given entity. Use the returned instance for further operations as the
+     * save operation might have changed the entity instance completely.
+     *
+     * @param entity to save
+     * @return the saved entity
+     */
+    public T save(T entity) {
         return entityManager.merge(entity);
     }
 
+    /**
+     * Deletes a given entity.
+     *
+     * @param entity entity
+     * @throws IllegalArgumentException in case the given entity is null.
+     */
     public void delete(T entity) {
         entityManager.remove(entity);
     }
 
-    public void deleteById(ID entityId) {
-        T entity = findOne(entityId);
-        delete(entity);
+    /**
+     * Deletes the entity with the given id. Throws a runtime exception if the
+     * entity with the given id could not be found.
+     *
+     * @param id must not be {@literal null}.
+     * @throws IllegalArgumentException in case the given id is null
+     */
+    public void deleteById(ID id) {
+        T t = findById(id).orElseThrow(IllegalArgumentException::new);
+        delete(t);
+    }
+
+    /**
+     * Returns whether an entity with the given id exists.
+     *
+     * @param id must not be null.
+     * @return true if an entity with the given id exists, false otherwise
+     * @throws IllegalArgumentException if id is null
+     */
+    public boolean existsById(ID id) {
+        if (id == null) throw new IllegalArgumentException();
+        return findById(id).isPresent();
     }
 
     public long count() {
