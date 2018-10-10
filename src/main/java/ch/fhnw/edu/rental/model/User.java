@@ -21,7 +21,7 @@ public class User {
     @Column(name = "USER_EMAIL")
     private String email;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Rental> rentals;
 
     private User() { /* Hibernate... */ }
@@ -30,6 +30,19 @@ public class User {
         this.lastName = lastName;
         this.firstName = firstName;
         this.rentals = new ArrayList<>();
+    }
+
+    /**
+     * bidirectional association must always have both the parent-side and the child-side in sync.
+     */
+    public void addRental(Rental rental) {
+        rentals.add(rental);
+        rental.setUser(this);
+    }
+
+    public void removeRental(Rental rental) {
+        rentals.remove(rental);
+        rental.setUser(null);
     }
 
     public Long getId() {
