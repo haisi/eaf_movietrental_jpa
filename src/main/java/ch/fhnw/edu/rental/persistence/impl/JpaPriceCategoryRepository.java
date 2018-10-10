@@ -3,54 +3,52 @@ package ch.fhnw.edu.rental.persistence.impl;
 import java.util.List;
 import java.util.Optional;
 
+import ch.fhnw.edu.rental.persistence.AbstractJpaRepository;
 import org.springframework.stereotype.Repository;
 
 import ch.fhnw.edu.rental.model.PriceCategory;
 import ch.fhnw.edu.rental.persistence.PriceCategoryRepository;
 
 @Repository
-public class JpaPriceCategoryRepository implements PriceCategoryRepository {
+public class JpaPriceCategoryRepository extends AbstractJpaRepository<PriceCategory, Long> implements PriceCategoryRepository {
+
+    public JpaPriceCategoryRepository() {
+        setClazz(PriceCategory.class);
+    }
 
     @Override
     public Optional<PriceCategory> findById(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return Optional.ofNullable(super.findOne(id));
     }
 
     @Override
     public List<PriceCategory> findAll() {
-        // TODO Auto-generated method stub
-        return null;
+        return super.findAll();
     }
 
     @Override
     public PriceCategory save(PriceCategory t) {
-        // TODO Auto-generated method stub
-        return null;
+        return super.update(t);
     }
 
     @Override
     public void deleteById(Long id) {
-        // TODO Auto-generated method stub
-
+        super.deleteById(id);
     }
 
     @Override
     public void delete(PriceCategory entity) {
-        // TODO Auto-generated method stub
-
+        super.delete(entity);
     }
 
     @Override
     public boolean existsById(Long id) {
-        // TODO Auto-generated method stub
-        return false;
+        return findById(id).isPresent();
     }
 
     @Override
     public long count() {
-        // TODO Auto-generated method stub
-        return 0;
+        return super.count();
     }
 
 
