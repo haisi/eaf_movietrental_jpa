@@ -3,60 +3,61 @@ package ch.fhnw.edu.rental.persistence.impl;
 import java.util.List;
 import java.util.Optional;
 
+import ch.fhnw.edu.rental.persistence.AbstractJpaRepository;
 import org.springframework.stereotype.Repository;
 
 import ch.fhnw.edu.rental.model.Rental;
 import ch.fhnw.edu.rental.model.User;
 import ch.fhnw.edu.rental.persistence.RentalRepository;
 
+import static ch.fhnw.edu.rental.persistence.QueryParameter.with;
+
 @Repository
-public class JpaRentalRepository implements RentalRepository {
+public class JpaRentalRepository extends AbstractJpaRepository<Rental, Long> implements RentalRepository {
+
+    public JpaRentalRepository() {
+        setClazz(Rental.class);
+    }
 
     @Override
     public Optional<Rental> findById(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return Optional.ofNullable(super.findOne(id));
     }
 
     @Override
     public List<Rental> findAll() {
-        // TODO Auto-generated method stub
-        return null;
+        return super.findAll();
     }
 
     @Override
     public Rental save(Rental t) {
-        // TODO Auto-generated method stub
-        return null;
+        return super.update(t);
     }
 
     @Override
     public void deleteById(Long id) {
-        // TODO Auto-generated method stub
-
+        super.deleteById(id);
     }
 
     @Override
     public void delete(Rental entity) {
-        // TODO Auto-generated method stub
-
+        super.delete(entity);
     }
 
     @Override
     public boolean existsById(Long id) {
-        // TODO Auto-generated method stub
-        return false;
+        return findById(id).isPresent();
     }
 
     @Override
     public long count() {
-        // TODO Auto-generated method stub
-        return 0;
+        return super.count();
     }
 
     @Override
     public List<Rental> findByUser(User user) {
-        // TODO Auto-generated method stub
-        return null;
+        return super.findWithQuery(
+            "SELECT r FROM Rental r where r.user = :user", with("user", user).params());
+
     }
 }

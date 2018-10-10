@@ -56,19 +56,19 @@ public class JpaUserRepository extends AbstractJpaRepository<User, Long> impleme
 
     @Override
     public List<User> findByLastName(String lastName) {
-        return super.findWithNamedQuery(
+        return super.findWithQuery(
             "SELECT u FROM User u where u.lastName = :lastName", with("lastName", lastName).params());
     }
 
     @Override
     public List<User> findByFirstName(String firstName) {
-        return super.findWithNamedQuery(
+        return super.findWithQuery(
             "SELECT u FROM User u where u.firstName = :firstName", with("firstName", firstName).params());
     }
 
     @Override
     public List<User> findByEmail(String email) {
-        return super.findWithNamedQuery(
+        return super.findWithQuery(
             "SELECT u FROM User u where u.email = :email", with("email", email).params());
 
     }

@@ -85,5 +85,31 @@ public abstract class AbstractJpaRepository<T, ID> {
         return query.getResultList();
     }
 
+    public List<T> findWithQuery(String namedQueryName) {
+        return this.entityManager.createQuery(namedQueryName, clazz).getResultList();
+    }
+
+    public List<T> findWithQuery(String namedQueryName, Map<String, Object> parameters) {
+        return findWithQuery(namedQueryName, parameters, 0);
+    }
+
+    public List<T> findWithQuery(String queryName, int resultLimit) {
+        return this.entityManager.createQuery(queryName, clazz)
+            .setMaxResults(resultLimit)
+            .getResultList();
+    }
+
+    public List<T> findWithQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) {
+        Set<Map.Entry<String, Object>> rawParameters = parameters.entrySet();
+        TypedQuery<T> query = this.entityManager.createQuery(namedQueryName, clazz);
+
+        if (resultLimit > 0) {
+            query.setMaxResults(resultLimit);
+        }
+
+        rawParameters.forEach(tuple -> query.setParameter(tuple.getKey(), tuple.getValue()));
+
+        return query.getResultList();
+    }
 
 }
