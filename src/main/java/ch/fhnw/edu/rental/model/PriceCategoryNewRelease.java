@@ -1,6 +1,14 @@
 package ch.fhnw.edu.rental.model;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@DiscriminatorValue("NewRelease")
 public class PriceCategoryNewRelease extends PriceCategory {
+
+//    private PriceCategoryNewRelease() {/* Hibernate... */}
 
     @Override
     public double getCharge(int daysRented) {
