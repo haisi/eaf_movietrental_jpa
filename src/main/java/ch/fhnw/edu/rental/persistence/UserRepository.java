@@ -11,10 +11,6 @@ import static ch.fhnw.edu.rental.persistence.QueryParameter.*;
 @Repository
 public class UserRepository extends AbstractJpaRepository<User, Long> {
 
-    public UserRepository() {
-        setClazz(User.class);
-    }
-
     public User save(User t) {
         return super.save(t);
     }

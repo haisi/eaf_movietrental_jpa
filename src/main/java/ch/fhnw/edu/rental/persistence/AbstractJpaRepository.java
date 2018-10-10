@@ -3,12 +3,15 @@ package ch.fhnw.edu.rental.persistence;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 /**
+ * @param <T>  type of the Entity the Repository is used for
+ * @param <ID> type of the Identifier of the Entity (usually Long)
  * @author Hasan Kara
  */
 public abstract class AbstractJpaRepository<T, ID> {
@@ -18,8 +21,12 @@ public abstract class AbstractJpaRepository<T, ID> {
     @PersistenceContext
     EntityManager entityManager;
 
-    public final void setClazz(Class<T> clazzToSet) {
-        this.clazz = clazzToSet;
+    /**
+     * @see <a href="https://xebia.com/blog/acessing-generic-types-at-runtime-in-java/">acessing generic types at runtime in java</a>
+     */
+    @SuppressWarnings("unchecked")
+    public AbstractJpaRepository() {
+        this.clazz = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
     /**

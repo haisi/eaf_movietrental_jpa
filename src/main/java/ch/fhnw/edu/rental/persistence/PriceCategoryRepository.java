@@ -9,8 +9,4 @@ import ch.fhnw.edu.rental.model.PriceCategory;
 @Repository
 public class PriceCategoryRepository extends AbstractJpaRepository<PriceCategory, Long> {
 
-    public PriceCategoryRepository() {
-        setClazz(PriceCategory.class);
-    }
-
 }

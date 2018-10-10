@@ -13,10 +13,6 @@ import static ch.fhnw.edu.rental.persistence.QueryParameter.with;
 @Repository
 public class RentalRepository extends AbstractJpaRepository<Rental, Long> {
 
-    public RentalRepository() {
-        setClazz(Rental.class);
-    }
-
     public List<Rental> findByUser(User user) {
         return super.findWithQuery(
             "SELECT r FROM Rental r where r.user = :user", with("user", user).params());
