@@ -13,23 +13,23 @@ import ch.fhnw.edu.rental.gui.MovieRentalApplicationGui;
 @SpringBootApplication
 public class MovieRentalApplication implements CommandLineRunner {
 
-	public static void main(String[] args) {
-		new SpringApplicationBuilder(MovieRentalApplication.class)
-			.headless(false)
-			.web(WebApplicationType.SERVLET) // set to SERVLET if h2 console should be enabled, NONE otherwise
-			.run(args);
-	}
+    public static void main(String[] args) {
+        new SpringApplicationBuilder(MovieRentalApplication.class)
+            .headless(false)
+            .web(WebApplicationType.SERVLET) // set to SERVLET if h2 console should be enabled, NONE otherwise
+            .run(args);
+    }
 
-	@Value("${gui:true}")
-	boolean gui;
+    @Value("${gui:true}")
+    boolean gui;
 
-	@Autowired
-	BusinessLogic logic;
+    @Autowired
+    BusinessLogic logic;
 
-	@Override
-	public void run(String... args) throws Exception {
-		if (gui) {
-			java.awt.EventQueue.invokeLater(() -> new MovieRentalApplicationGui(logic).setVisible(true));
-		}
-	}
+    @Override
+    public void run(String... args) throws Exception {
+        if (gui) {
+            java.awt.EventQueue.invokeLater(() -> new MovieRentalApplicationGui(logic).setVisible(true));
+        }
+    }
 }

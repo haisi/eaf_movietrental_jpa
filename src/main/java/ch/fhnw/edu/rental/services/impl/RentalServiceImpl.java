@@ -16,36 +16,36 @@ import ch.fhnw.edu.rental.services.RentalService;
 @Service
 @Transactional
 public class RentalServiceImpl implements RentalService {
-	private Log log = LogFactory.getLog(this.getClass());
-	
-	@Autowired
-	private RentalRepository rentalRepo;
-	
-	@Override
-	public List<Rental> getAllRentals() {
-		List<Rental> rentals = rentalRepo.findAll();
-			log.debug("getAllRentals() done");
-		return rentals;
-	}
+    private Log log = LogFactory.getLog(this.getClass());
 
-	@Override
-	public Rental getRentalById(Long id) {
-		return rentalRepo.findById(id).orElse(null);
-	}
+    @Autowired
+    private RentalRepository rentalRepo;
 
-	@Override
-	public void deleteRental(Rental rental) {
-		if (rental == null) {
-			throw new RuntimeException("'rental' parameter is not set!");
-		}
+    @Override
+    public List<Rental> getAllRentals() {
+        List<Rental> rentals = rentalRepo.findAll();
+        log.debug("getAllRentals() done");
+        return rentals;
+    }
 
-		rental.getUser().getRentals().remove(rental);
-		rental.getMovie().setRented(false);
+    @Override
+    public Rental getRentalById(Long id) {
+        return rentalRepo.findById(id).orElse(null);
+    }
 
-		rentalRepo.delete(rental);
-		
-		if (log.isDebugEnabled()) {
-			log.debug("rental[" + rental.getId() + "] deleted");
-		}		
-	}
+    @Override
+    public void deleteRental(Rental rental) {
+        if (rental == null) {
+            throw new RuntimeException("'rental' parameter is not set!");
+        }
+
+        rental.getUser().getRentals().remove(rental);
+        rental.getMovie().setRented(false);
+
+        rentalRepo.delete(rental);
+
+        if (log.isDebugEnabled()) {
+            log.debug("rental[" + rental.getId() + "] deleted");
+        }
+    }
 }

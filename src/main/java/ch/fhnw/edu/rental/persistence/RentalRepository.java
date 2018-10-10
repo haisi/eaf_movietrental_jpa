@@ -6,5 +6,5 @@ import ch.fhnw.edu.rental.model.Rental;
 import ch.fhnw.edu.rental.model.User;
 
 public interface RentalRepository extends Repository<Rental, Long> {
-	List<Rental> findByUser(User user);
+    List<Rental> findByUser(User user);
 }
