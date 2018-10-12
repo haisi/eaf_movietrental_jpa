@@ -3,6 +3,10 @@ package ch.fhnw.edu.rental.business.util.persistence;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Root;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +21,7 @@ import java.util.Set;
 public abstract class AbstractJpaRepository<T, ID> {
 
     private Class<T> clazz;
+    private Class<ID> idClazz;
 
     @PersistenceContext
     EntityManager entityManager;
@@ -27,6 +32,7 @@ public abstract class AbstractJpaRepository<T, ID> {
     @SuppressWarnings("unchecked")
     public AbstractJpaRepository() {
         this.clazz = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        this.idClazz = (Class<ID>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
     }
 
     /**
@@ -92,16 +98,36 @@ public abstract class AbstractJpaRepository<T, ID> {
     public boolean existsById(ID id) {
         if (id == null) throw new IllegalArgumentException();
 
-        TypedQuery<Long> q = entityManager.createQuery(
-            String.format("SELECT COUNT(e) FROM %s e WHERE e.id = :id", clazz.getName()), Long.class);
-        q.setParameter("id", id);
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 
-        return q.getSingleResult() > 0;
+        // Params
+        ParameterExpression<ID> idParam = cb.parameter(idClazz);
+
+        // Return value
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+
+        Root<T> root = cq.from(clazz);               // FROM clazz
+        cq.select(cb.count(root));                   // COUNT (clazz)
+        cq.where(cb.equal(root.get("id"), idParam)); // WHERE id = idParamExpression
+
+        // Set values for params
+        TypedQuery<Long> query = entityManager.createQuery(cq);
+        query.setParameter(idParam, id);
+
+        return query.getSingleResult() > 0;
     }
 
     public long count() {
-        // TODO get the entity name from the Entity-annotation
-        TypedQuery<Long> query = entityManager.createQuery(String.format("select count(o) from %s o", clazz.getName()), Long.class);
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+        // Return value
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+
+        Root<T> root = cq.from(clazz);               // FROM clazz
+        cq.select(cb.count(root));                   // COUNT (clazz)
+
+        TypedQuery<Long> query = entityManager.createQuery(cq);
+
         return query.getSingleResult();
     }
 
