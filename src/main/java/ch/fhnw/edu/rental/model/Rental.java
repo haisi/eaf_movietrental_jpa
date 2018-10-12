@@ -46,6 +46,15 @@ public class Rental {
         this.rentalDate = rentalDate;
     }
 
+    @PreRemove
+    private void preRemove() {
+        movie.setRented(false);
+        if (user != null) {
+            user.removeRental(this);
+        }
+        setUser(null);
+    }
+
     public double getRentalFee() {
         return movie.getPriceCategory().getCharge(rentalDays);
     }

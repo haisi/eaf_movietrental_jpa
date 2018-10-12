@@ -35,9 +35,6 @@ public class RentalService {
             throw new RuntimeException("'rental' parameter is not set!");
         }
 
-        rental.getUser().getRentals().remove(rental);
-        rental.getMovie().setRented(false);
-
         rentalRepo.delete(rental);
 
         if (log.isDebugEnabled()) {

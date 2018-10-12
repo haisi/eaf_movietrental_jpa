@@ -45,6 +45,13 @@ public class User {
         rental.setUser(null);
     }
 
+    @PreRemove
+    private void preRemove() {
+        for (Rental rental : rentals) {
+            rental.setUser(null);
+        }
+    }
+
     public Long getId() {
         return id;
     }
