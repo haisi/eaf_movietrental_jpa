@@ -21,7 +21,7 @@ public class User {
     @Column(name = "USER_EMAIL")
     private String email;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Rental> rentals;
 
     private User() { /* Hibernate... */ }
