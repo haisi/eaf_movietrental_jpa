@@ -20,7 +20,7 @@ import java.util.Set;
  */
 public abstract class AbstractJpaRepository<T, ID> {
 
-    private Class<T> clazz;
+    private Class<T> entityClazz;
     private Class<ID> idClazz;
 
     @PersistenceContext
@@ -31,7 +31,7 @@ public abstract class AbstractJpaRepository<T, ID> {
      */
     @SuppressWarnings("unchecked")
     public AbstractJpaRepository() {
-        this.clazz = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        this.entityClazz = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         this.idClazz = (Class<ID>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
     }
 
@@ -43,7 +43,7 @@ public abstract class AbstractJpaRepository<T, ID> {
      * @throws IllegalArgumentException if id is null.
      */
     public Optional<T> findById(ID id) {
-        return Optional.ofNullable(entityManager.find(clazz, id));
+        return Optional.ofNullable(entityManager.find(entityClazz, id));
     }
 
     /**
@@ -52,7 +52,7 @@ public abstract class AbstractJpaRepository<T, ID> {
      * @return all entities
      */
     public List<T> findAll() {
-        return entityManager.createQuery("from " + clazz.getName(), clazz).getResultList();
+        return entityManager.createQuery("from " + entityClazz.getName(), entityClazz).getResultList();
     }
 
     /**
@@ -106,8 +106,8 @@ public abstract class AbstractJpaRepository<T, ID> {
         // Return value
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 
-        Root<T> root = cq.from(clazz);               // FROM clazz
-        cq.select(cb.count(root));                   // COUNT (clazz)
+        Root<T> root = cq.from(entityClazz);               // FROM entityClazz
+        cq.select(cb.count(root));                   // COUNT (entityClazz)
         cq.where(cb.equal(root.get("id"), idParam)); // WHERE id = idParamExpression
 
         // Set values for params
@@ -123,8 +123,8 @@ public abstract class AbstractJpaRepository<T, ID> {
         // Return value
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 
-        Root<T> root = cq.from(clazz);               // FROM clazz
-        cq.select(cb.count(root));                   // COUNT (clazz)
+        Root<T> root = cq.from(entityClazz);               // FROM entityClazz
+        cq.select(cb.count(root));                   // COUNT (entityClazz)
 
         TypedQuery<Long> query = entityManager.createQuery(cq);
 
@@ -132,7 +132,7 @@ public abstract class AbstractJpaRepository<T, ID> {
     }
 
     public List<T> findWithNamedQuery(String namedQueryName) {
-        return this.entityManager.createNamedQuery(namedQueryName, clazz).getResultList();
+        return this.entityManager.createNamedQuery(namedQueryName, entityClazz).getResultList();
     }
 
     public List<T> findWithNamedQuery(String namedQueryName, Map<String, Object> parameters) {
@@ -140,19 +140,19 @@ public abstract class AbstractJpaRepository<T, ID> {
     }
 
     public List<T> findWithNamedQuery(String queryName, int resultLimit) {
-        return this.entityManager.createNamedQuery(queryName, clazz)
+        return this.entityManager.createNamedQuery(queryName, entityClazz)
             .setMaxResults(resultLimit)
             .getResultList();
     }
 
     @SuppressWarnings("unchecked")
     public List<T> findByNativeQuery(String sql) {
-        return this.entityManager.createNativeQuery(sql, clazz).getResultList();
+        return this.entityManager.createNativeQuery(sql, entityClazz).getResultList();
     }
 
     public List<T> findWithNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) {
         Set<Map.Entry<String, Object>> rawParameters = parameters.entrySet();
-        TypedQuery<T> query = this.entityManager.createNamedQuery(namedQueryName, clazz);
+        TypedQuery<T> query = this.entityManager.createNamedQuery(namedQueryName, entityClazz);
 
         if (resultLimit > 0) {
             query.setMaxResults(resultLimit);
@@ -164,7 +164,7 @@ public abstract class AbstractJpaRepository<T, ID> {
     }
 
     public List<T> findWithQuery(String namedQueryName) {
-        return this.entityManager.createQuery(namedQueryName, clazz).getResultList();
+        return this.entityManager.createQuery(namedQueryName, entityClazz).getResultList();
     }
 
     public List<T> findWithQuery(String namedQueryName, Map<String, Object> parameters) {
@@ -172,14 +172,14 @@ public abstract class AbstractJpaRepository<T, ID> {
     }
 
     public List<T> findWithQuery(String queryName, int resultLimit) {
-        return this.entityManager.createQuery(queryName, clazz)
+        return this.entityManager.createQuery(queryName, entityClazz)
             .setMaxResults(resultLimit)
             .getResultList();
     }
 
     public List<T> findWithQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) {
         Set<Map.Entry<String, Object>> rawParameters = parameters.entrySet();
-        TypedQuery<T> query = this.entityManager.createQuery(namedQueryName, clazz);
+        TypedQuery<T> query = this.entityManager.createQuery(namedQueryName, entityClazz);
 
         if (resultLimit > 0) {
             query.setMaxResults(resultLimit);
