@@ -6,13 +6,13 @@ import java.time.temporal.ChronoUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import ch.fhnw.edu.rental.model.Movie;
-import ch.fhnw.edu.rental.model.PriceCategory;
-import ch.fhnw.edu.rental.model.Rental;
-import ch.fhnw.edu.rental.model.User;
-import ch.fhnw.edu.rental.services.MovieService;
-import ch.fhnw.edu.rental.services.RentalService;
-import ch.fhnw.edu.rental.services.UserService;
+import ch.fhnw.edu.rental.business.movie.Movie;
+import ch.fhnw.edu.rental.business.price_category.PriceCategory;
+import ch.fhnw.edu.rental.business.rental.Rental;
+import ch.fhnw.edu.rental.business.user.User;
+import ch.fhnw.edu.rental.business.movie.MovieService;
+import ch.fhnw.edu.rental.business.rental.RentalService;
+import ch.fhnw.edu.rental.business.user.UserService;
 
 @Component
 public class BusinessLogicLocal implements BusinessLogic {

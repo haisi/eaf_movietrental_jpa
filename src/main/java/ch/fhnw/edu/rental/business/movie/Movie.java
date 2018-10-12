@@ -1,4 +1,6 @@
-package ch.fhnw.edu.rental.model;
+package ch.fhnw.edu.rental.business.movie;
+
+import ch.fhnw.edu.rental.business.price_category.PriceCategory;
 
 import javax.persistence.*;
 import java.time.LocalDate;

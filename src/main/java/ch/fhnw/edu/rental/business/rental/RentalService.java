@@ -1,4 +1,4 @@
-package ch.fhnw.edu.rental.services;
+package ch.fhnw.edu.rental.business.rental;
 
 import java.util.List;
 
@@ -8,9 +8,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import ch.fhnw.edu.rental.model.Rental;
-import ch.fhnw.edu.rental.persistence.RentalRepository;
 
 @Service
 @Transactional

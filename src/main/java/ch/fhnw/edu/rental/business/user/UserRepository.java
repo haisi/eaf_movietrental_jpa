@@ -1,12 +1,11 @@
-package ch.fhnw.edu.rental.persistence;
+package ch.fhnw.edu.rental.business.user;
 
 import java.util.List;
 
+import ch.fhnw.edu.rental.business.util.persistence.AbstractJpaRepository;
 import org.springframework.stereotype.Repository;
 
-import ch.fhnw.edu.rental.model.User;
-
-import static ch.fhnw.edu.rental.persistence.QueryParameter.*;
+import static ch.fhnw.edu.rental.business.util.persistence.QueryParameter.*;
 
 @Repository
 public class UserRepository extends AbstractJpaRepository<User, Long> {

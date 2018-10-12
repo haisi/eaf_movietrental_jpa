@@ -1,4 +1,7 @@
-package ch.fhnw.edu.rental.model;
+package ch.fhnw.edu.rental.business.rental;
+
+import ch.fhnw.edu.rental.business.movie.Movie;
+import ch.fhnw.edu.rental.business.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;

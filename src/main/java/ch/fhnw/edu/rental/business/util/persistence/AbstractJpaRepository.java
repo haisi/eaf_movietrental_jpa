@@ -1,4 +1,4 @@
-package ch.fhnw.edu.rental.persistence;
+package ch.fhnw.edu.rental.business.util.persistence;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

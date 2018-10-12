@@ -1,4 +1,6 @@
-package ch.fhnw.edu.rental.model;
+package ch.fhnw.edu.rental.business.user;
+
+import ch.fhnw.edu.rental.business.rental.Rental;
 
 import javax.persistence.*;
 import java.util.ArrayList;

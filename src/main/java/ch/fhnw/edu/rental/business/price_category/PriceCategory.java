@@ -1,4 +1,4 @@
-package ch.fhnw.edu.rental.model;
+package ch.fhnw.edu.rental.business.price_category;
 
 import javax.persistence.*;
 

@@ -1,14 +1,13 @@
-package ch.fhnw.edu.rental.persistence;
+package ch.fhnw.edu.rental.business.rental;
 
 import java.util.List;
-import java.util.Optional;
 
+import ch.fhnw.edu.rental.business.util.persistence.AbstractJpaRepository;
 import org.springframework.stereotype.Repository;
 
-import ch.fhnw.edu.rental.model.Rental;
-import ch.fhnw.edu.rental.model.User;
+import ch.fhnw.edu.rental.business.user.User;
 
-import static ch.fhnw.edu.rental.persistence.QueryParameter.with;
+import static ch.fhnw.edu.rental.business.util.persistence.QueryParameter.with;
 
 @Repository
 public class RentalRepository extends AbstractJpaRepository<Rental, Long> {

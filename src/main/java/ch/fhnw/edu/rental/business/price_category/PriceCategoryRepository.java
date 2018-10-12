@@ -1,10 +1,7 @@
-package ch.fhnw.edu.rental.persistence;
+package ch.fhnw.edu.rental.business.price_category;
 
-import java.util.List;
-
+import ch.fhnw.edu.rental.business.util.persistence.AbstractJpaRepository;
 import org.springframework.stereotype.Repository;
-
-import ch.fhnw.edu.rental.model.PriceCategory;
 
 @Repository
 public class PriceCategoryRepository extends AbstractJpaRepository<PriceCategory, Long> {

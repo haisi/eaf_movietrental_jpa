@@ -1,4 +1,4 @@
-package ch.fhnw.edu.rental.services;
+package ch.fhnw.edu.rental.business.movie;
 
 import java.util.List;
 
@@ -9,10 +9,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ch.fhnw.edu.rental.model.Movie;
-import ch.fhnw.edu.rental.model.PriceCategory;
-import ch.fhnw.edu.rental.persistence.MovieRepository;
-import ch.fhnw.edu.rental.persistence.PriceCategoryRepository;
+import ch.fhnw.edu.rental.business.price_category.PriceCategory;
+import ch.fhnw.edu.rental.business.price_category.PriceCategoryRepository;
 
 @Service
 @Transactional

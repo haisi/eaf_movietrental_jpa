@@ -1,7 +1,10 @@
-package ch.fhnw.edu.rental.services;
+package ch.fhnw.edu.rental.business.rental;
 
 import java.util.List;
 
+import ch.fhnw.edu.rental.business.rental.RentalService;
+import ch.fhnw.edu.rental.business.movie.MovieService;
+import ch.fhnw.edu.rental.business.user.UserService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,9 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import ch.fhnw.edu.rental.model.Movie;
-import ch.fhnw.edu.rental.model.Rental;
-import ch.fhnw.edu.rental.model.User;
+import ch.fhnw.edu.rental.business.movie.Movie;
+import ch.fhnw.edu.rental.business.rental.Rental;
+import ch.fhnw.edu.rental.business.user.User;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(properties={"gui=false"})

@@ -1,4 +1,4 @@
-package ch.fhnw.edu.rental.services;
+package ch.fhnw.edu.rental.business.movie;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.time.LocalDate;
 import java.util.List;
 
+import ch.fhnw.edu.rental.business.movie.MovieService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,10 +15,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import ch.fhnw.edu.rental.model.Movie;
-import ch.fhnw.edu.rental.model.PriceCategory;
-import ch.fhnw.edu.rental.model.PriceCategoryNewRelease;
-import ch.fhnw.edu.rental.model.PriceCategoryRegular;
+import ch.fhnw.edu.rental.business.movie.Movie;
+import ch.fhnw.edu.rental.business.price_category.PriceCategory;
+import ch.fhnw.edu.rental.business.price_category.PriceCategoryNewRelease;
+import ch.fhnw.edu.rental.business.price_category.PriceCategoryRegular;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(properties={"gui=false"})

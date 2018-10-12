@@ -1,12 +1,11 @@
-package ch.fhnw.edu.rental.persistence;
+package ch.fhnw.edu.rental.business.movie;
 
 import java.util.List;
 
+import ch.fhnw.edu.rental.business.util.persistence.AbstractJpaRepository;
 import org.springframework.stereotype.Repository;
 
-import ch.fhnw.edu.rental.model.Movie;
-
-import static ch.fhnw.edu.rental.persistence.QueryParameter.with;
+import static ch.fhnw.edu.rental.business.util.persistence.QueryParameter.with;
 
 @Repository
 public class MovieRepository extends AbstractJpaRepository<Movie, Long> {
