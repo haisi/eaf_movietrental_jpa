@@ -67,7 +67,7 @@ public abstract class AbstractJpaRepository<T, ID> {
      * @throws IllegalArgumentException in case the given entity is null.
      */
     public void delete(T entity) {
-        entityManager.remove(entity);
+        entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
     }
 
     /**
