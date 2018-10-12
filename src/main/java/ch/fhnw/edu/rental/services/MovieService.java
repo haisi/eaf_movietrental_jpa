@@ -2,19 +2,69 @@ package ch.fhnw.edu.rental.services;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import ch.fhnw.edu.rental.model.Movie;
 import ch.fhnw.edu.rental.model.PriceCategory;
+import ch.fhnw.edu.rental.persistence.MovieRepository;
+import ch.fhnw.edu.rental.persistence.PriceCategoryRepository;
 
-public interface MovieService {
-    public Movie getMovieById(Long id);
+@Service
+@Transactional
+public class MovieService {
+    private Log log = LogFactory.getLog(this.getClass());
 
-    public List<Movie> getAllMovies();
+    @Autowired
+    private MovieRepository movieRepo;
 
-    public List<Movie> getMoviesByTitle(String title);
+    @Autowired
+    private PriceCategoryRepository priceCategoryRepo;
 
-    public Movie saveMovie(Movie movie);
+    public Movie getMovieById(Long id) {
+        return movieRepo.findById(id).orElse(null);
+    }
 
-    public void deleteMovie(Movie movie);
+    public List<Movie> getAllMovies() {
+        List<Movie> movies = movieRepo.findAll();
+        log.debug("getAllMovies() done");
+        return movies;
+    }
 
-    public List<PriceCategory> getAllPriceCategories();
+    public List<Movie> getMoviesByTitle(String title) {
+        return movieRepo.findByTitle(title);
+    }
+
+    public Movie saveMovie(Movie movie) {
+        if (movie == null) {
+            throw new RuntimeException("'movie' parameter is not set!");
+        }
+        movie = movieRepo.save(movie);
+        log.debug("saved or updated movie[" + movie.getId() + "]");
+        return movie;
+    }
+
+    public void deleteMovie(Movie movie) {
+        if (movie == null) {
+            throw new RuntimeException("'movie' parameter is not set!");
+        }
+        if (movie.isRented()) {
+            throw new RuntimeException("movie is still used");
+        }
+
+        movieRepo.delete(movie);
+
+        if (log.isDebugEnabled()) {
+            log.debug("movie[" + movie.getId() + "] deleted");
+        }
+    }
+
+    public List<PriceCategory> getAllPriceCategories() {
+        return priceCategoryRepo.findAll();
+    }
+
 }
