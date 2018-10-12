@@ -52,7 +52,16 @@ public abstract class AbstractJpaRepository<T, ID> {
      * @return all entities
      */
     public List<T> findAll() {
-        return entityManager.createQuery("from " + entityClazz.getName(), entityClazz).getResultList();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<T> cq = cb.createQuery(entityClazz);
+
+        Root<T> from = cq.from(entityClazz); // FROM entityClazz
+        cq.select(from);                     // SELECT *
+
+        TypedQuery<T> query = entityManager.createQuery(cq);
+
+        return query.getResultList();
     }
 
     /**
@@ -106,7 +115,7 @@ public abstract class AbstractJpaRepository<T, ID> {
         // Return value
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 
-        Root<T> root = cq.from(entityClazz);               // FROM entityClazz
+        Root<T> root = cq.from(entityClazz);         // FROM entityClazz
         cq.select(cb.count(root));                   // COUNT (entityClazz)
         cq.where(cb.equal(root.get("id"), idParam)); // WHERE id = idParamExpression
 
@@ -123,7 +132,7 @@ public abstract class AbstractJpaRepository<T, ID> {
         // Return value
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 
-        Root<T> root = cq.from(entityClazz);               // FROM entityClazz
+        Root<T> root = cq.from(entityClazz);         // FROM entityClazz
         cq.select(cb.count(root));                   // COUNT (entityClazz)
 
         TypedQuery<Long> query = entityManager.createQuery(cq);
