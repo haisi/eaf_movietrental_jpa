@@ -91,7 +91,12 @@ public abstract class AbstractJpaRepository<T, ID> {
      */
     public boolean existsById(ID id) {
         if (id == null) throw new IllegalArgumentException();
-        return findById(id).isPresent();
+
+        TypedQuery<Long> q = entityManager.createQuery(
+            String.format("SELECT COUNT(e) FROM %s e WHERE e.id = :id", clazz.getName()), Long.class);
+        q.setParameter("id", id);
+
+        return q.getSingleResult() > 0;
     }
 
     public long count() {
